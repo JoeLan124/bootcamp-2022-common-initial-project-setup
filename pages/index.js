@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { getPosts } from "lib/data.js";
 import prisma from "lib/prisma";
-import { Posts } from "./components/Posts";
+import { Posts } from "components/Posts";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
