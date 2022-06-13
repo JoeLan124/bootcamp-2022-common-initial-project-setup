@@ -6,7 +6,17 @@ export default function Post({ post }) {
     <div className="flex flex-col mb-4 border border-3 border-black p-10 bg-gray-200 mx-20 my-10">
       <div className="flex flex-shrink-0 pb-0 ">
         <div className="flex-shrink-0 block group ">
-          <div className="flex items-center text-gray-800"></div>
+          <div className="flex items-center text-gray-800">
+            <Link href={`/r/${post.subredditName}`}>
+              <a className="mr-2 underline">/r/{post.subredditName}</a>
+            </Link>
+            Posted by {post.author.name}{" "}
+            <Link href={`/r/${post.subredditName}/comments/${post.id}`}>
+              <a className="mx-2 underline">
+                {timeago.format(new Date(post.createdAt))}
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="mt-1">
