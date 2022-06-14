@@ -4,6 +4,7 @@ import { getPost, getSubreddit } from "lib/data.js";
 import timeago from "lib/timeago";
 import NewComment from "components/NewComment";
 import { useSession } from "next-auth/react";
+import Comments from "components/Comments";
 
 export default function Post({ subreddit, post }) {
   const { data: session, status } = useSession();
@@ -61,6 +62,7 @@ export default function Post({ subreddit, post }) {
           </p>
         )}
       </div>
+      <Comments comments={post.comments} />
     </>
   );
 }
