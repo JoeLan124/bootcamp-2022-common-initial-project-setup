@@ -1,7 +1,7 @@
 import prisma from "lib/prisma";
 import { getSubreddit, getPostsFromSubreddit } from "lib/data.js";
 import Link from "next/link";
-import Posts from "components/Posts";
+import { Posts } from "components/Posts";
 
 export default function Subreddit({ subreddit, posts }) {
   if (!subreddit) {
@@ -15,7 +15,6 @@ export default function Subreddit({ subreddit, posts }) {
           🔙 back to the homepage
         </a>
       </Link>
-
       <p className="text-center p-5">/r/{subreddit.name}</p>
       <Posts posts={posts} />
     </>
