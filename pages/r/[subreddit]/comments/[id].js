@@ -100,7 +100,7 @@ export default function Post({ subreddit, post, vote, votes }) {
           to add a comment
         </p>
       )}
-      <Comments comments={post.comments} />
+      <Comments comments={post.comments} post={post} />
     </>
   );
 }
