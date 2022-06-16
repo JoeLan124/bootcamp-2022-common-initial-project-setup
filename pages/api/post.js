@@ -34,20 +34,9 @@ const uploadFile = (filePath, fileName, id) => {
 };
 
 handler.post(async (req, res) => {
-  if (req.files && req.files.image[0] && req.files.image[0].size > 0) {
-    const location = await uploadFile(
-      req.files.image[0].path,
-      req.files.image[0].originalFilename,
-      post.id
-    );
+  const session = await getSession({ req });
 
-    await prisma.post.update({
-      where: { id: post.id },
-      data: {
-        image: location,
-      },
-    });
-  }
+  if (!session) return res.statusCode(401).json({ message: "Not logged in" });
 
   const post = await prisma.post.create({
     data: {
@@ -63,6 +52,21 @@ handler.post(async (req, res) => {
       },
     },
   });
+
+  if (req.files && req.files.image[0] && req.files.image[0].size > 0) {
+    const location = await uploadFile(
+      req.files.image[0].path,
+      req.files.image[0].originalFilename,
+      post.id
+    );
+
+    await prisma.post.update({
+      where: { id: post.id },
+      data: {
+        image: location,
+      },
+    });
+  }
 
   res.json(post);
   return;

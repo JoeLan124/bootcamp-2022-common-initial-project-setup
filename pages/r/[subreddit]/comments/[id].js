@@ -82,6 +82,12 @@ export default function Post({ subreddit, post, vote, votes }) {
               <a className="flex-shrink text-2xl font-bold color-primary width-auto">
                 {post.title}
               </a>
+              {post.image && (
+                <img
+                  className="flex-shrink text-base font-normal color-primary width-auto mt-2"
+                  src={post.image}
+                />
+              )}
               <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">
                 {post.content}
               </p>
@@ -100,12 +106,7 @@ export default function Post({ subreddit, post, vote, votes }) {
           to add a comment
         </p>
       )}
-      {post.image && (
-        <img
-          className="flex-shrink text-base font-normal color-primary width-auto mt-2"
-          src={post.image}
-        />
-      )}
+
       <Comments comments={post.comments} post={post} />
     </>
   );

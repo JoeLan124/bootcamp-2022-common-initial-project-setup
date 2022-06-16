@@ -77,13 +77,6 @@ export default function NewPost({ subreddit }) {
               placeholder="The post title"
               onChange={(e) => setTitle(e.target.value)}
             />
-            <textarea
-              className="border border-gray-700 p-4 w-full text-lg font-medium bg-transparent outline-none  "
-              rows={5}
-              cols={50}
-              placeholder="The post content"
-              onChange={(e) => setContent(e.target.value)}
-            />
 
             <div className="text-sm text-gray-600 ">
               <label className="relative font-medium cursor-pointer underline my-3 block">
@@ -107,6 +100,14 @@ export default function NewPost({ subreddit }) {
                 />
               </label>
             </div>
+
+            <textarea
+              className="border border-gray-700 p-4 w-full text-lg font-medium bg-transparent outline-none  "
+              rows={5}
+              cols={50}
+              placeholder="The post content"
+              onChange={(e) => setContent(e.target.value)}
+            />
             <div className="mt-5">
               <button className="border border-gray-700 px-8 py-2 mt-0 mr-8 font-bold ">
                 Post
