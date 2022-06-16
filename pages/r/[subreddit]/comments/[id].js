@@ -6,6 +6,7 @@ import NewComment from "components/NewComment";
 import { useSession, getSession } from "next-auth/react";
 import Comments from "components/Comments";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function Post({ subreddit, post, vote, votes }) {
   const router = useRouter();
@@ -75,7 +76,10 @@ export default function Post({ subreddit, post, vote, votes }) {
         <div className="flex items-center mb-0 border-t border-r border-b border-3 border-black p-10 bg-blue-200 mt-10 h-30">
           <div className="flex-shrink-0  group ">
             <div className="inline-block text-gray-800">
-              Posted by {post.author.name}{" "}
+              Posted by
+              <Link href={`/u/${post.author.name}`}>
+                <a className="ml-1 underline">{post.author.name}</a>
+              </Link>{" "}
               <p className="mx-2 underline">
                 {timeago.format(new Date(post.createdAt))}
               </p>
@@ -83,9 +87,10 @@ export default function Post({ subreddit, post, vote, votes }) {
                 {post.title}
               </a>
               {post.image && (
-                <img
+                <Image
                   className="flex-shrink text-base font-normal color-primary width-auto mt-2"
                   src={post.image}
+                  alt="upoadpicture"
                 />
               )}
               <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">

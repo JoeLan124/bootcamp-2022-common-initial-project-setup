@@ -2,10 +2,11 @@ import Link from "next/link";
 import prisma from "lib/prisma";
 import { getUser, getPostsFromUser } from "lib/data.js";
 
-import Posts from "components/Posts";
+import { Posts } from "components/Posts";
 
 export default function Profile({ user, posts }) {
   if (!user) return <p className="text-center p-5">User does not exist 😞</p>;
+
   return (
     <>
       <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
