@@ -1,5 +1,6 @@
 import timeago from "lib/timeago";
 import Link from "next/link";
+import image from "next/image";
 
 export default function Post({ post }) {
   return (
@@ -9,8 +10,11 @@ export default function Post({ post }) {
           <div className="flex items-center text-gray-800">
             <Link href={`/r/${post.subredditName}`}>
               <a className="mr-2 underline">/r/{post.subredditName}</a>
-            </Link>
-            Posted by {post.author.name}{" "}
+            </Link>{" "}
+            Posted by
+            <Link href={`/u/${post.author.name}`}>
+              <a className="ml-1 underline">{post.author.name}</a>
+            </Link>{" "}
             <Link href={`/r/${post.subredditName}/comments/${post.id}`}>
               <a className="mx-2 underline">
                 {timeago.format(new Date(post.createdAt))}
@@ -19,16 +23,17 @@ export default function Post({ post }) {
           </div>
         </div>
       </div>
-      <div className="mt-1">
+      <div className="mt-5">
         <Link href={`/r/${post.subredditName}/comments/${post.id}`}>
           <a className="flex-shrink text-2xl font-bold color-primary width-auto">
             {post.title}
           </a>
         </Link>
         {post.image && (
-          <img
+          <image
             className="flex-shrink text-base font-normal color-primary width-auto mt-2"
             src={post.image}
+            alt="uploadpicture"
           />
         )}
         <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">
