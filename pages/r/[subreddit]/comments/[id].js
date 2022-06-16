@@ -100,6 +100,12 @@ export default function Post({ subreddit, post, vote, votes }) {
           to add a comment
         </p>
       )}
+      {post.image && (
+        <img
+          className="flex-shrink text-base font-normal color-primary width-auto mt-2"
+          src={post.image}
+        />
+      )}
       <Comments comments={post.comments} post={post} />
     </>
   );
