@@ -45,7 +45,6 @@ export default function NewPost({ subreddit }) {
             className="flex flex-col "
             onSubmit={async (e) => {
               e.preventDefault();
-
               if (!title) {
                 alert("Enter a title");
                 return;
@@ -56,16 +55,15 @@ export default function NewPost({ subreddit }) {
               }
 
               const body = new FormData();
-              body.append("image", image);
               body.append("title", title);
               body.append("content", content);
               body.append("subreddit_name", subreddit.name);
+              body.append("image", image);
 
               const res = await fetch("/api/post", {
-                body,
+                body: body,
                 method: "POST",
               });
-
               router.push(`/r/${subreddit.name}`);
             }}
           >

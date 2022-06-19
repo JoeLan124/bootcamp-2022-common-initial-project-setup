@@ -36,7 +36,15 @@ const uploadFile = (filePath, fileName, id) => {
 handler.post(async (req, res) => {
   const session = await getSession({ req });
 
-  if (!session) return res.statusCode(401).json({ message: "Not logged in" });
+  if (!session) return res.status(401).json({ message: "Not logged in" });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user) return res.status(401).json({ message: "User not found" });
 
   const post = await prisma.post.create({
     data: {

@@ -1,23 +1,22 @@
-import Link from "next/link";
 import prisma from "lib/prisma";
-import { getPost, getSubreddit, getVotes, getVote } from "lib/data.js";
+import { getPost, getSubreddit, getVote, getVotes } from "lib/data.js";
+import Link from "next/link";
 import timeago from "lib/timeago";
 import NewComment from "components/NewComment";
 import { useSession, getSession } from "next-auth/react";
 import Comments from "components/Comments";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
-export default function Post({ subreddit, post, vote, votes }) {
+export default function Post({ subreddit, post, votes, vote }) {
   const router = useRouter();
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  if (!post) return <p className="text-center p-5">Post does not exist 😞</p>;
-
   if (loading) {
     return null;
   }
+
+  if (!post) return <p className="text-center p-5">Post does not exist 😞</p>;
 
   const sendVote = async (up) => {
     await fetch("/api/vote", {
@@ -42,17 +41,14 @@ export default function Post({ subreddit, post, vote, votes }) {
         </Link>
         <p className="grow"></p>
       </header>
-
       <header className="bg-black text-white h-12 flex pt-3 px-5 pb-2">
         <Link href={`/r/${subreddit.name}`}>
           <a className="text-center underline">/r/{subreddit.name}</a>
         </Link>
         <p className="ml-4 text-left grow">{subreddit.description}</p>
       </header>
-
-      <div className="flex flex-row mb-4  px-3 justify-center">
-        <div className="flex flex-row mb-4  px-3 justify-center"></div>
-        <div className="flex flex-col mb-0 border-t border-l border-b border-3 border-black p-10 bg-blue-200 my-10 text-center">
+      <div className="flex flex-row mb-4  px-10 justify-center">
+        <div className="flex flex-col mb-4 border-t border-l border-b border-3 border-black p-10 bg-gray-200 my-10 text-center">
           <div
             className="cursor-pointer"
             onClick={async (e) => {
@@ -73,46 +69,47 @@ export default function Post({ subreddit, post, vote, votes }) {
             {!vote ? "↓" : vote?.up ? "↓" : "⬇"}
           </div>
         </div>
-        <div className="flex items-center mb-0 border-t border-r border-b border-3 border-black p-10 bg-blue-200 mt-10 h-30">
-          <div className="flex-shrink-0  group ">
-            <div className="inline-block text-gray-800">
-              Posted by
-              <Link href={`/u/${post.author.name}`}>
-                <a className="ml-1 underline">{post.author.name}</a>
-              </Link>{" "}
-              <p className="mx-2 underline">
-                {timeago.format(new Date(post.createdAt))}
-              </p>
-              <a className="flex-shrink text-2xl font-bold color-primary width-auto">
-                {post.title}
-              </a>
-              {post.image && (
-                <Image
-                  className="flex-shrink text-base font-normal color-primary width-auto mt-2"
-                  src={post.image}
-                  alt="upoadpicture"
-                />
-              )}
-              <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">
-                {post.content}
-              </p>
+        <div className="flex flex-col mb-4 border-t border-r border-b border-3 border-black p-10 pl-0 bg-gray-200 my-10">
+          <div className="flex flex-shrink-0 pb-0 ">
+            <div className="flex-shrink-0 block group ">
+              <div className="flex items-center text-gray-800">
+                Posted by{" "}
+                <Link href={`/u/${post.author.name}`}>
+                  <a className="ml-1 underline">{post.author.name}</a>
+                </Link>{" "}
+                <p className="mx-2 underline">
+                  {timeago.format(new Date(post.createdAt))}
+                </p>
+              </div>
             </div>
           </div>
+          <div className="mt-1">
+            <a className="flex-shrink text-2xl font-bold color-primary width-auto">
+              {post.title}
+            </a>
+            {post.image && (
+              <img
+                className="flex-shrink text-base font-normal color-primary width-auto mt-2"
+                src={post.image}
+              />
+            )}
+            <p className="flex-shrink text-base font-normal color-primary width-auto mt-2">
+              {post.content}
+            </p>
+          </div>
+          {session ? (
+            <NewComment post={post} />
+          ) : (
+            <p className="mt-5">
+              <Link className="mr-1 underline" href="/api/auth/signin">
+                Login
+              </Link>
+              to add a comment
+            </p>
+          )}
+          <Comments comments={post.comments} post={post} />
         </div>
       </div>
-
-      {session ? (
-        <NewComment post={post} />
-      ) : (
-        <p className="mt-5 ">
-          <Link className="mr-1 underline" href="/api/auth/signin">
-            Login
-          </Link>{" "}
-          to add a comment
-        </p>
-      )}
-
-      <Comments comments={post.comments} post={post} />
     </>
   );
 }
@@ -138,8 +135,8 @@ export async function getServerSideProps(context) {
     props: {
       subreddit,
       post,
-      vote,
       votes,
+      vote,
     },
   };
 }

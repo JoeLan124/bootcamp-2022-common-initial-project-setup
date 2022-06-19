@@ -30,7 +30,7 @@ export default function Post({ post }) {
           </a>
         </Link>
         {post.image && (
-          <image
+          <img
             className="flex-shrink text-base font-normal color-primary width-auto mt-2"
             src={post.image}
             alt="uploadpicture"

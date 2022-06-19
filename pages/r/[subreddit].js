@@ -1,9 +1,10 @@
 import prisma from "lib/prisma";
 import { getSubreddit, getPostsFromSubreddit } from "lib/data.js";
-import Link from "next/link";
-import { Posts } from "components/Posts";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+
+import Link from "next/link";
+import { Posts } from "components/Posts";
 
 export default function Subreddit({ subreddit, posts }) {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function Subreddit({ subreddit, posts }) {
   if (loading) {
     return null;
   }
+
   if (!subreddit) {
     return <p className="text-center p-5">Subreddit does not exist 😞</p>;
   }
@@ -29,7 +31,6 @@ export default function Subreddit({ subreddit, posts }) {
         <p className="text-center">/r/{subreddit.name}</p>
         <p className="ml-4 text-left grow">{subreddit.description}</p>
       </header>
-
       {session && (
         <div className="border border-3 border-black p-10  mx-20 my-10">
           <input
